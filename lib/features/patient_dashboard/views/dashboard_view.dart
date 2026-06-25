@@ -415,6 +415,20 @@ class DashboardView extends GetView<DashboardController> {
         'color': const Color(0xFF10B981),
         'icon': Icons.water_drop_rounded,
       },
+      {
+        'title': 'Istirahat Cukup',
+        'subtitle': 'Tidur 7-9 jam sehari dan posisikan tubuh miring ke kiri.',
+        'image': 'assets/images/tips_istirahat.jpg',
+        'color': const Color(0xFF8B5CF6),
+        'icon': Icons.bedtime_rounded,
+      },
+      {
+        'title': 'Pemeriksaan Rutin',
+        'subtitle': 'Jangan lewatkan jadwal kontrol kandungan ke dokter.',
+        'image': 'assets/images/tips_periksa.jpg',
+        'color': const Color(0xFFF59E0B),
+        'icon': Icons.medical_services_rounded,
+      },
     ];
 
     return SizedBox(
