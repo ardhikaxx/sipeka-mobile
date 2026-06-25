@@ -75,7 +75,7 @@ class ChatView extends StatelessWidget {
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        maxWidth: 280,
+        constraints: const BoxConstraints(maxWidth: 280),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isMe ? AppColors.primary : Colors.white,
