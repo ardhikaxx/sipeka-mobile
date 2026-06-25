@@ -73,6 +73,7 @@ class HealthDataView extends GetView<HealthDataController> {
                   ],
                 ),
               ),
+              ),
             ],
           ),
 

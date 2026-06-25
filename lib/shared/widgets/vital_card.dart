@@ -48,6 +48,7 @@ class VitalCard extends StatelessWidget {
           ]
         ],
       ),
+      ),
     );
   }
 }
