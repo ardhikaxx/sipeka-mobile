@@ -126,7 +126,7 @@ class HealthDataView extends GetView<HealthDataController> {
                         ),
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: () => Get.to(() => const LabResultView()),
                           icon: const Icon(Icons.history_rounded, color: AppColors.gray700, size: 16),
                         ),
                       ),

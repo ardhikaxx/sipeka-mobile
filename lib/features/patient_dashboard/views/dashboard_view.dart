@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'tip_detail_view.dart';
 import '../../schedule/views/appointment_detail_view.dart';
+import '../../profile/views/notification_view.dart';
 import '../controllers/dashboard_controller.dart';
 import '../../main_nav/controllers/main_nav_controller.dart';
 import '../../../core/theme/app_colors.dart';
@@ -176,7 +177,7 @@ class DashboardView extends GetView<DashboardController> {
                         ),
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: () => Get.to(() => const NotificationView()),
                           icon: const Icon(Icons.notifications_outlined, color: AppColors.gray700, size: 16),
                         ),
                       ),
