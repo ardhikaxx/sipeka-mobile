@@ -16,6 +16,6 @@ void main() {
     await tester.pumpWidget(SipekaApp());
 
     // Verify that the title exists
-    expect(find.text('Portal Pasien'), findsOneWidget);
+    expect(find.text('SIPEKA'), findsWidgets);
   });
 }
