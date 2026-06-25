@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'tip_detail_view.dart';
 import '../controllers/dashboard_controller.dart';
 import '../../main_nav/controllers/main_nav_controller.dart';
 import '../../../core/theme/app_colors.dart';
@@ -404,6 +405,7 @@ class DashboardView extends GetView<DashboardController> {
       {
         'title': 'Olahraga Ringan',
         'subtitle': 'Jalan kaki 15 menit setiap pagi untuk sirkulasi darah.',
+        'content': 'Olahraga ringan seperti jalan kaki selama 15-30 menit sangat direkomendasikan untuk ibu hamil. Ini membantu meningkatkan sirkulasi darah, mengurangi pembengkakan pada kaki, dan menjaga kebugaran tubuh menjelang persalinan. Pastikan untuk menggunakan sepatu yang nyaman dan berhenti jika merasa lelah atau pusing.',
         'image': 'assets/images/tips_olahraga.jpg',
         'color': const Color(0xFF3B82F6),
         'icon': Icons.directions_walk_rounded,
@@ -411,6 +413,7 @@ class DashboardView extends GetView<DashboardController> {
       {
         'title': 'Kebutuhan Cairan',
         'subtitle': 'Pastikan minum 8-10 gelas air putih sehari.',
+        'content': 'Selama kehamilan, kebutuhan cairan tubuh meningkat secara signifikan untuk mendukung pembentukan air ketuban, peningkatan volume darah, dan pertumbuhan janin. Kurang minum dapat menyebabkan dehidrasi, yang memicu kontraksi dini atau infeksi saluran kemih. Selalu siapkan botol air di dekat Anda dan minumlah secara berkala.',
         'image': 'assets/images/tips_minum.jpg',
         'color': const Color(0xFF10B981),
         'icon': Icons.water_drop_rounded,
@@ -418,6 +421,7 @@ class DashboardView extends GetView<DashboardController> {
       {
         'title': 'Istirahat Cukup',
         'subtitle': 'Tidur 7-9 jam sehari dan posisikan tubuh miring ke kiri.',
+        'content': 'Tidur yang cukup sangat penting bagi ibu hamil untuk mengembalikan energi. Posisi tidur terbaik adalah miring ke kiri, karena posisi ini mengoptimalkan aliran darah dan nutrisi ke plasenta serta janin. Gunakan bantal kehamilan atau letakkan bantal di antara kedua lutut untuk mengurangi tekanan pada punggung bawah.',
         'image': 'assets/images/tips_istirahat.jpg',
         'color': const Color(0xFF8B5CF6),
         'icon': Icons.bedtime_rounded,
@@ -425,6 +429,7 @@ class DashboardView extends GetView<DashboardController> {
       {
         'title': 'Pemeriksaan Rutin',
         'subtitle': 'Jangan lewatkan jadwal kontrol kandungan ke dokter.',
+        'content': 'Pemeriksaan Antenatal Care (ANC) secara rutin sangat vital untuk memantau kesehatan ibu dan perkembangan janin. Jangan ragu untuk bertanya kepada dokter mengenai keluhan sekecil apa pun yang Anda rasakan. Catat setiap pertanyaan Anda di rumah agar tidak lupa saat berkonsultasi.',
         'image': 'assets/images/tips_periksa.jpg',
         'color': const Color(0xFFF59E0B),
         'icon': Icons.medical_services_rounded,
@@ -438,9 +443,11 @@ class DashboardView extends GetView<DashboardController> {
         controller: PageController(viewportFraction: 0.92),
         itemBuilder: (context, index) {
           final tip = tips[index];
-          return Container(
-            margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.all(20),
+          return GestureDetector(
+            onTap: () => Get.to(() => TipDetailView(tipData: tip)),
+            child: Container(
+              margin: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(tip['image'] as String),
@@ -466,14 +473,16 @@ class DashboardView extends GetView<DashboardController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 4),
-                      Text(tip['subtitle'] as String, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 12)),
+                      Text(tip['title'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                      const SizedBox(height: 6),
+                      Text(tip['subtitle'] as String, style: const TextStyle(fontSize: 13, color: Colors.white, height: 1.3), maxLines: 2, overflow: TextOverflow.ellipsis),
                     ],
                   ),
                 ),
                 const SizedBox(width: 12),
                 Icon(tip['icon'] as IconData, size: 60, color: Colors.white.withOpacity(0.2)),
               ],
+            ),
             ),
           );
         },
