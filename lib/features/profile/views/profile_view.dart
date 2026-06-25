@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
 import 'language_settings_view.dart';
+import 'faq_view.dart';
 import '../../../core/theme/app_colors.dart';
 
 class ProfileView extends StatelessWidget {
@@ -109,9 +110,9 @@ class ProfileView extends StatelessWidget {
                     const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider(height: 1)),
                     _buildSettingsAction(Icons.language_rounded, 'Bahasa (Language)', onTap: () => Get.to(() => const LanguageSettingsView())),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider(height: 1)),
-                    _buildSettingsAction(Icons.help_outline_rounded, 'Bantuan & FAQ'),
+                    _buildSettingsAction(Icons.help_outline_rounded, 'Bantuan & FAQ', onTap: () => Get.to(() => const FaqView())),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider(height: 1)),
-                    _buildSettingsAction(Icons.logout_rounded, 'Keluar Akun', isDestructive: true),
+                    _buildSettingsAction(Icons.logout_rounded, 'Keluar Akun', isDestructive: true, onTap: () => _showLogoutBottomSheet(context)),
                   ],
                 ),
               ),
@@ -174,6 +175,63 @@ class ProfileView extends StatelessWidget {
             const SizedBox(width: 16),
             Expanded(child: Text(label, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: color))),
             Icon(Icons.chevron_right_rounded, color: AppColors.gray400),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showLogoutBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(width: 48, height: 6, decoration: BoxDecoration(color: AppColors.gray200, borderRadius: BorderRadius.circular(3))),
+            const SizedBox(height: 24),
+            Container(padding: const EdgeInsets.all(16), decoration: BoxDecoration(color: AppColors.riskRed.withOpacity(0.1), shape: BoxShape.circle), child: const Icon(Icons.logout_rounded, color: AppColors.riskRed, size: 40)),
+            const SizedBox(height: 20),
+            const Text('Keluar dari Akun', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+            const SizedBox(height: 12),
+            Text('Apakah Anda yakin ingin keluar dari aplikasi SIPEKA? Anda harus masuk kembali untuk melihat rekam medis Anda.', textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: AppColors.gray600, height: 1.5)),
+            const SizedBox(height: 32),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Get.back(),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      side: const BorderSide(color: AppColors.gray300),
+                    ),
+                    child: const Text('Batal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.gray700)),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                      Get.snackbar('Keluar Akun', 'Fitur keluar akun sedang dalam pengembangan.', backgroundColor: AppColors.gray900, colorText: Colors.white, snackPosition: SnackPosition.BOTTOM, margin: const EdgeInsets.all(20), borderRadius: 16);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.riskRed,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
+                    ),
+                    child: const Text('Ya, Keluar', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
