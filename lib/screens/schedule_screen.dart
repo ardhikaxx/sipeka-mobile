@@ -51,7 +51,7 @@ class ScheduleScreen extends StatelessWidget {
                 Expanded(child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: PekaColors.gray900))),
                 if (isUpcoming) 
                   Container(
-                    margin: const EdgeInsets.left(8),
+                    margin: const EdgeInsets.only(left: 8),
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(color: PekaColors.primaryPale, borderRadius: BorderRadius.circular(12)),
                     child: const Text('Segera', style: TextStyle(color: PekaColors.primary, fontSize: 10, fontWeight: FontWeight.bold)),

@@ -25,7 +25,7 @@ class HealthDataScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: PekaColors.riskYellowBorder),
             ),
-            margin: const EdgeInsets.bottom(20),
+            margin: const EdgeInsets.only(bottom: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
