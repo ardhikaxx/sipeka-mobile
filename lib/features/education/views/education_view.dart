@@ -25,7 +25,7 @@ class EducationView extends GetView<EducationController> {
             padding: EdgeInsets.only(left: 20, right: 20, top: MediaQuery.of(context).padding.top + 90, bottom: 120),
             physics: const BouncingScrollPhysics(),
             children: [
-              _buildFeaturedArticle(),
+              _buildFeaturedArticlesCarousel(),
               const SizedBox(height: 32),
               const Text('Kategori', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.gray900)),
               const SizedBox(height: 16),
@@ -111,13 +111,46 @@ class EducationView extends GetView<EducationController> {
     );
   }
 
-  Widget _buildFeaturedArticle() {
-    return Container(
+  Widget _buildFeaturedArticlesCarousel() {
+    return SizedBox(
       height: 200,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        clipBehavior: Clip.none,
+        children: [
+          _buildCarouselCard(
+            title: 'Tanda Bahaya Kehamilan yang Harus Segera Diperiksakan',
+            badgeText: 'PENTING',
+            badgeColor: AppColors.riskRed,
+            imagePath: 'assets/images/tanda_bahaya.jpg',
+          ),
+          const SizedBox(width: 16),
+          _buildCarouselCard(
+            title: 'Nutrisi Penting Selama Trimester Pertama',
+            badgeText: 'NUTRISI',
+            badgeColor: AppColors.secondary,
+            imagePath: 'assets/images/nutrisi_kehamilan.jpg',
+          ),
+          const SizedBox(width: 16),
+          _buildCarouselCard(
+            title: 'Senam Hamil untuk Memperlancar Persalinan',
+            badgeText: 'KEBUGARAN',
+            badgeColor: AppColors.riskGreen,
+            imagePath: 'assets/images/senam_kehamilan.jpg',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarouselCard({required String title, required String badgeText, required Color badgeColor, required String imagePath}) {
+    return Container(
+      width: 280,
       decoration: BoxDecoration(
         color: AppColors.primary,
         borderRadius: BorderRadius.circular(24),
-        image: const DecorationImage(image: AssetImage('assets/images/tanda_bahaya.jpg'), fit: BoxFit.cover, colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken)),
+        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover, colorFilter: const ColorFilter.mode(Colors.black45, BlendMode.darken)),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 20, offset: const Offset(0, 10))],
       ),
       child: Padding(
@@ -126,9 +159,9 @@ class EducationView extends GetView<EducationController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4), decoration: BoxDecoration(color: AppColors.riskRed, borderRadius: BorderRadius.circular(8)), child: const Text('PENTING', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
+            Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4), decoration: BoxDecoration(color: badgeColor, borderRadius: BorderRadius.circular(8)), child: Text(badgeText, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
             const SizedBox(height: 12),
-            const Text('Tanda Bahaya Kehamilan yang Harus Segera Diperiksakan', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, height: 1.3)),
+            Text(title, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, height: 1.3), maxLines: 3, overflow: TextOverflow.ellipsis),
           ],
         ),
       ),

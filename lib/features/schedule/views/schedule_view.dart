@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 import '../controllers/schedule_controller.dart';
 import '../../../core/theme/app_colors.dart';
 
 class ScheduleView extends GetView<ScheduleController> {
-  const ScheduleView({Key? key}) : super(key: key);
+  const ScheduleView({super.key});
   
   @override
   Widget build(BuildContext context) {
