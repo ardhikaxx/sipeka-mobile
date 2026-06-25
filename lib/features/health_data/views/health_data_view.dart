@@ -36,14 +36,15 @@ class HealthDataView extends GetView<HealthDataController> {
             physics: const BouncingScrollPhysics(),
             children: [
               _buildAlertBanner(),
-              const SizedBox(height: 24),
-              const Text('Grafik Tekanan Darah', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
               const SizedBox(height: 16),
+              const Text('Grafik Tekanan Darah', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+              const SizedBox(height: 12),
               _buildChart(),
-              const SizedBox(height: 24),
-              const Text('Vital Saat Ini', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
               const SizedBox(height: 16),
+              const Text('Vital Saat Ini', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+              const SizedBox(height: 12),
               GridView.count(
+                padding: EdgeInsets.zero,
                 crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 0.9,
                 children: [
                   Obx(() => VitalCard(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80')),
@@ -54,7 +55,7 @@ class HealthDataView extends GetView<HealthDataController> {
               ),
               const SizedBox(height: 24),
               const Text('Hasil Lab Terakhir (12 Ags 2026)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 5))]),
