@@ -12,8 +12,10 @@ class SipekaApp extends StatelessWidget {
       title: 'SIPEKA Ibu Hamil',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(0xFFE84393), // peka-secondary: Magenta rose (identitas maternal)
+          primary: Color(0xFF1A6B6B), // peka-primary: Teal gelap
+        ),
         scaffoldBackgroundColor: Colors.grey[50],
         useMaterial3: true,
       ),
