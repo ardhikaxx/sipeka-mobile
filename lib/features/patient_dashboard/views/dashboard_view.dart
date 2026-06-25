@@ -404,54 +404,54 @@ class DashboardView extends GetView<DashboardController> {
       {
         'title': 'Olahraga Ringan',
         'subtitle': 'Jalan kaki 15 menit setiap pagi untuk sirkulasi darah.',
-        'color1': const Color(0xFF3B82F6),
-        'color2': const Color(0xFF2563EB),
+        'image': 'assets/images/tips_olahraga.jpg',
+        'color': const Color(0xFF3B82F6),
         'icon': Icons.directions_walk_rounded,
       },
       {
         'title': 'Kebutuhan Cairan',
         'subtitle': 'Pastikan minum 8-10 gelas air putih sehari.',
-        'color1': const Color(0xFF10B981),
-        'color2': const Color(0xFF059669),
+        'image': 'assets/images/tips_minum.jpg',
+        'color': const Color(0xFF10B981),
         'icon': Icons.water_drop_rounded,
       },
     ];
 
     return SizedBox(
-      height: 140,
+      height: 150,
       child: PageView.builder(
         itemCount: tips.length,
-        controller: PageController(viewportFraction: 0.95),
+        controller: PageController(viewportFraction: 0.92),
         itemBuilder: (context, index) {
           final tip = tips[index];
           return Container(
             margin: const EdgeInsets.only(right: 12),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [tip['color1'] as Color, tip['color2'] as Color],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+              image: DecorationImage(
+                image: AssetImage(tip['image'] as String),
+                fit: BoxFit.cover,
+                colorFilter: const ColorFilter.mode(Colors.black54, BlendMode.darken),
               ),
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
-                BoxShadow(color: (tip['color1'] as Color).withOpacity(0.3), blurRadius: 15, offset: const Offset(0, 8)),
+                BoxShadow(color: (tip['color'] as Color).withOpacity(0.3), blurRadius: 15, offset: const Offset(0, 8)),
               ],
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(color: (tip['color'] as Color).withOpacity(0.8), shape: BoxShape.circle),
+                  child: Icon(tip['icon'] as IconData, color: Colors.white, size: 28),
+                ),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(8)),
-                        child: const Text('TIPS', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(tip['title'] as String, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 4),
                       Text(tip['subtitle'] as String, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 12)),
                     ],
