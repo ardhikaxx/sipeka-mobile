@@ -29,15 +29,15 @@ class HealthDataView extends GetView<HealthDataController> {
           ),
           const Text('Grafik & Vital Saat Ini', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.gray900)),
           const SizedBox(height: 16),
-          Obx(() => GridView.count(
+          GridView.count(
             crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 0.9,
             children: [
-              VitalCard(title: 'Tekanan Darah', value: '\${controller.bpSistolik.value}/\${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80'),
-              VitalCard(title: 'Berat Badan', value: '\${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, iconColor: AppColors.primaryLight, trendMessage: '+1.5kg dari lalu'),
-              VitalCard(title: 'Detak Jantung', value: '\${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, iconColor: AppColors.secondary),
-              VitalCard(title: 'Tinggi Fundus', value: '\${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, iconColor: AppColors.riskGreen),
+              Obx(() => VitalCard(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80')),
+              Obx(() => VitalCard(title: 'Berat Badan', value: '${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, iconColor: AppColors.primaryLight, trendMessage: '+1.5kg dari lalu')),
+              Obx(() => VitalCard(title: 'Detak Jantung', value: '${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, iconColor: AppColors.secondary)),
+              Obx(() => VitalCard(title: 'Tinggi Fundus', value: '${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, iconColor: AppColors.riskGreen)),
             ],
-          )),
+          ),
           const SizedBox(height: 20),
           const Text('Hasil Lab Terakhir (12 Ags 2026)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.gray900)),
           const SizedBox(height: 12),
