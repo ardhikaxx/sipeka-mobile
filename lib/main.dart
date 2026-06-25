@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'package:get/get.dart';
+import 'app/routes/app_pages.dart';
+import 'core/theme/app_colors.dart';
 
 void main() {
-  runApp(SipekaApp());
+  runApp(const SipekaApp());
 }
 
 class SipekaApp extends StatelessWidget {
+  const SipekaApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'SIPEKA Ibu Hamil',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFFE84393), // peka-secondary: Magenta rose (identitas maternal)
-          primary: Color(0xFF1A6B6B), // peka-primary: Teal gelap
+          seedColor: AppColors.secondary,
+          primary: AppColors.primary,
         ),
-        scaffoldBackgroundColor: Colors.grey[50],
+        scaffoldBackgroundColor: AppColors.bgApp,
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
     );
   }
 }
