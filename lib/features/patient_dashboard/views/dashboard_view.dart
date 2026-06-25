@@ -71,7 +71,7 @@ class DashboardView extends GetView<DashboardController> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: _buildDigitalPregnancyCard(),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   
                   // Main Menus
                   Container(
@@ -98,7 +98,7 @@ class DashboardView extends GetView<DashboardController> {
                           ],
                         ),
                         
-                        const SizedBox(height: 36),
+                        const SizedBox(height: 20),
                         
                         // Next Appointment Ticket
                         Row(
@@ -111,7 +111,7 @@ class DashboardView extends GetView<DashboardController> {
                         const SizedBox(height: 16),
                         _buildNextAppointmentTicket(),
                         
-                        const SizedBox(height: 36),
+                        const SizedBox(height: 16),
                         
                         // Tips Carousel
                         const Text('Tips Kehamilan Hari Ini', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
