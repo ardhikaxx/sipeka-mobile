@@ -20,27 +20,20 @@ class ArticleDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgApp,
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 300,
-            pinned: true,
-            backgroundColor: categoryColor,
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.black.withOpacity(0.3), shape: BoxShape.circle),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-                  onPressed: () => Get.back(),
-                ),
-              ),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
+      body: Stack(
+        children: [
+          CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 300,
+                pinned: false,
+                automaticallyImplyLeading: false,
+                backgroundColor: categoryColor,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    fit: StackFit.expand,
+                    children: [
                   // Check if imagePath is an asset or network or placeholder
                   imagePath.startsWith('assets') 
                       ? Image.asset(imagePath, fit: BoxFit.cover)
@@ -107,6 +100,48 @@ class ArticleDetailView extends StatelessWidget {
                     ),
                     const SizedBox(height: 60),
                   ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+          
+      // Floating Pill Header
+      Positioned(
+        top: 0, left: 0, right: 0,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Container(
+                  height: 64,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 24, offset: const Offset(0, 8))],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 4),
+                        decoration: BoxDecoration(color: AppColors.gray100, shape: BoxShape.circle),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.primary, size: 22),
+                          onPressed: () => Get.back(),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(child: Text('Artikel Edukasi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.gray900))),
+                      Container(
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(color: categoryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(16)),
+                        child: Text(category, style: TextStyle(color: categoryColor, fontSize: 12, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
