@@ -5,6 +5,7 @@ import '../../patient_dashboard/views/dashboard_view.dart';
 import '../../health_data/views/health_data_view.dart';
 import '../../schedule/views/schedule_view.dart';
 import '../../education/views/education_view.dart';
+import '../../profile/views/profile_view.dart';
 import '../../../core/theme/app_colors.dart';
 
 class MainNavView extends GetView<MainNavController> {
@@ -13,6 +14,7 @@ class MainNavView extends GetView<MainNavController> {
     const HealthDataView(),
     const ScheduleView(),
     const EducationView(),
+    const ProfileView(),
   ];
 
   @override
@@ -45,6 +47,7 @@ class MainNavView extends GetView<MainNavController> {
                   _buildNavItem(controller.currentIndex.value, 1, Icons.favorite_rounded, 'Kesehatan'),
                   _buildNavItem(controller.currentIndex.value, 2, Icons.calendar_month_rounded, 'Jadwal'),
                   _buildNavItem(controller.currentIndex.value, 3, Icons.menu_book_rounded, 'Edukasi'),
+                  _buildNavItem(controller.currentIndex.value, 4, Icons.person_rounded, 'Profil'),
                 ],
               ),
             ),
