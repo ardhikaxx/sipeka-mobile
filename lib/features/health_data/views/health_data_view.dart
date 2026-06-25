@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../controllers/health_data_controller.dart';
+import 'vital_detail_view.dart';
+import 'lab_result_view.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/vital_card.dart';
 
@@ -47,17 +49,19 @@ class HealthDataView extends GetView<HealthDataController> {
                 padding: EdgeInsets.zero,
                 crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 0.9,
                 children: [
-                  Obx(() => VitalCard(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80')),
-                  Obx(() => VitalCard(title: 'Berat Badan', value: '${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, iconColor: AppColors.primaryLight, trendMessage: '+1.5kg dari lalu')),
-                  Obx(() => VitalCard(title: 'Detak Jantung', value: '${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, iconColor: AppColors.secondary)),
-                  Obx(() => VitalCard(title: 'Tinggi Fundus', value: '${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, iconColor: AppColors.riskGreen)),
+                  Obx(() => VitalCard(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80', onTap: () => Get.to(() => VitalDetailView(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, color: AppColors.riskRed, description: 'Tekanan darah menunjukkan adanya peningkatan dan mendekati ambang batas hipertensi. Kurangi konsumsi garam.')))),
+                  Obx(() => VitalCard(title: 'Berat Badan', value: '${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, iconColor: AppColors.primaryLight, trendMessage: '+1.5kg dari lalu', onTap: () => Get.to(() => VitalDetailView(title: 'Berat Badan', value: '${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, color: AppColors.primaryLight, description: 'Peningkatan berat badan Anda berada dalam batas normal untuk usia kandungan 24 minggu.')))),
+                  Obx(() => VitalCard(title: 'Detak Jantung', value: '${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, iconColor: AppColors.secondary, onTap: () => Get.to(() => VitalDetailView(title: 'Detak Jantung Janin', value: '${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, color: AppColors.secondary, description: 'Detak Jantung Janin (DJJ) normal, berada di kisaran 120-160 denyut per menit.')))),
+                  Obx(() => VitalCard(title: 'Tinggi Fundus', value: '${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, iconColor: AppColors.riskGreen, onTap: () => Get.to(() => VitalDetailView(title: 'Tinggi Fundus', value: '${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, color: AppColors.riskGreen, description: 'Tinggi fundus uteri sesuai dengan usia kehamilan Anda. Pertumbuhan janin berjalan baik.')))),
                 ],
               ),
               const SizedBox(height: 24),
               const Text('Hasil Lab Terakhir (12 Ags 2026)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
               const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(20),
+              GestureDetector(
+                onTap: () => Get.to(() => const LabResultView()),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 5))]),
                 child: Column(
                   children: [
@@ -68,7 +72,7 @@ class HealthDataView extends GetView<HealthDataController> {
                     _buildLabRow('Gula Darah (GDS)', '98 mg/dL', false, Icons.science),
                   ],
                 ),
-              )
+              ),
             ],
           ),
 

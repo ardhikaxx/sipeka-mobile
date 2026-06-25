@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'article_detail_view.dart';
 import '../controllers/education_controller.dart';
 import '../../../core/theme/app_colors.dart';
 
@@ -159,9 +160,11 @@ class EducationView extends GetView<EducationController> {
   }
 
   Widget _buildCarouselCard({required String title, required String badgeText, required Color badgeColor, required String imagePath}) {
-    return Container(
-      width: 280,
-      decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () => Get.to(() => ArticleDetailView(title: title, imagePath: imagePath, category: badgeText, categoryColor: badgeColor)),
+      child: Container(
+        width: 280,
+        decoration: BoxDecoration(
         color: AppColors.primary,
         borderRadius: BorderRadius.circular(24),
         image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover, colorFilter: const ColorFilter.mode(Colors.black45, BlendMode.darken)),
@@ -179,6 +182,7 @@ class EducationView extends GetView<EducationController> {
           ],
         ),
       ),
+    ),
     );
   }
 
@@ -191,29 +195,32 @@ class EducationView extends GetView<EducationController> {
   }
 
   Widget _buildArticleCard(String title, String desc, String date, IconData icon, Color iconColor) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 5))]),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(padding: const EdgeInsets.all(16), decoration: BoxDecoration(color: iconColor.withOpacity(0.1), borderRadius: BorderRadius.circular(16)), child: Icon(icon, size: 32, color: iconColor)),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.gray900)),
-                  const SizedBox(height: 6),
-                  Text(desc, style: const TextStyle(fontSize: 13, color: AppColors.gray500, height: 1.4), maxLines: 2, overflow: TextOverflow.ellipsis),
-                  const SizedBox(height: 12),
-                  Text(date, style: const TextStyle(fontSize: 11, color: AppColors.gray400, fontWeight: FontWeight.bold)),
-                ],
+    return GestureDetector(
+      onTap: () => Get.to(() => ArticleDetailView(title: title, imagePath: 'none', category: 'ARTIKEL UMUM', categoryColor: iconColor)),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 5))]),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(padding: const EdgeInsets.all(16), decoration: BoxDecoration(color: iconColor.withOpacity(0.1), borderRadius: BorderRadius.circular(16)), child: Icon(icon, size: 32, color: iconColor)),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.gray900)),
+                    const SizedBox(height: 6),
+                    Text(desc, style: const TextStyle(fontSize: 13, color: AppColors.gray500, height: 1.4), maxLines: 2, overflow: TextOverflow.ellipsis),
+                    const SizedBox(height: 12),
+                    Text(date, style: const TextStyle(fontSize: 11, color: AppColors.gray400, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

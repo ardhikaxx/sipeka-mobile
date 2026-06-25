@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
 import 'language_settings_view.dart';
 import 'faq_view.dart';
+import 'edit_profile_view.dart';
 import '../../../core/theme/app_colors.dart';
 
 class ProfileView extends StatelessWidget {
@@ -139,7 +140,7 @@ class ProfileView extends StatelessWidget {
                       Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: AppColors.gray100, shape: BoxShape.circle), child: const Icon(Icons.person_rounded, color: AppColors.primary, size: 20)),
                       const SizedBox(width: 12),
                       const Expanded(child: Text('Akun & Rekam Medis', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.gray900))),
-                      IconButton(icon: const Icon(Icons.edit_rounded, color: AppColors.primary, size: 22), onPressed: () {}),
+                      IconButton(icon: const Icon(Icons.edit_rounded, color: AppColors.primary, size: 22), onPressed: () => Get.to(() => const EditProfileView())),
                     ],
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'tip_detail_view.dart';
+import '../../schedule/views/appointment_detail_view.dart';
 import '../controllers/dashboard_controller.dart';
 import '../../main_nav/controllers/main_nav_controller.dart';
 import '../../../core/theme/app_colors.dart';
@@ -106,7 +107,7 @@ class DashboardView extends GetView<DashboardController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text('Jadwal Terdekat', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-                            Text('Lihat Semua', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                            GestureDetector(onTap: () => Get.find<MainNavController>().changePage(2), child: Text('Lihat Semua', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.primary))),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -289,15 +290,17 @@ class DashboardView extends GetView<DashboardController> {
   }
 
   Widget _buildNextAppointmentTicket() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 20, offset: const Offset(0, 10)),
-        ],
-        border: Border.all(color: AppColors.gray100),
-      ),
+    return GestureDetector(
+      onTap: () => Get.to(() => const AppointmentDetailView()),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 20, offset: const Offset(0, 10)),
+          ],
+          border: Border.all(color: AppColors.gray100),
+        ),
       child: Column(
         children: [
           Padding(
@@ -382,7 +385,7 @@ class DashboardView extends GetView<DashboardController> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const AppointmentDetailView()),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
