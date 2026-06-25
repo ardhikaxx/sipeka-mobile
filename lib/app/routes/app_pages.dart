@@ -7,6 +7,8 @@ import '../../features/emergency/bindings/emergency_binding.dart';
 
 import '../../features/onboarding/views/splash_view.dart';
 import '../../features/onboarding/views/onboarding_view.dart';
+import '../../features/fetal_detail/views/fetal_detail_view.dart';
+import '../../features/fetal_detail/controllers/fetal_detail_controller.dart';
 
 class AppPages {
   static const INITIAL = Routes.SPLASH;
@@ -33,6 +35,13 @@ class AppPages {
       binding: EmergencyBinding(),
       fullscreenDialog: true,
       transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: Routes.FETAL_DETAIL,
+      page: () => const FetalDetailView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<FetalDetailController>(() => FetalDetailController());
+      }),
     ),
   ];
 }

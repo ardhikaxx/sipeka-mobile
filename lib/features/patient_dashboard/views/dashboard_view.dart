@@ -505,16 +505,18 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
   Widget _buildFetalSizeVisualizer() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 20, offset: const Offset(0, 10))
-        ],
-        border: Border.all(color: AppColors.primary.withOpacity(0.1)),
-      ),
+    return GestureDetector(
+      onTap: () => Get.toNamed(Routes.FETAL_DETAIL),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 20, offset: const Offset(0, 10))
+          ],
+          border: Border.all(color: AppColors.primary.withOpacity(0.1)),
+        ),
       child: Row(
         children: [
           Container(
@@ -548,6 +550,7 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

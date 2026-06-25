@@ -7,4 +7,5 @@ abstract class Routes {
   static const EMERGENCY = '/emergency';
   static const PROFILE = '/profile';
   static const APPOINTMENT = '/appointment';
+  static const FETAL_DETAIL = '/fetal-detail';
 }
