@@ -204,148 +204,103 @@ class DashboardView extends GetView<DashboardController> {
   }
 
   Widget _buildDigitalPregnancyCard() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(32),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(32),
-            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
-            boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 30, offset: const Offset(0, 10))
-            ],
-          ),
-          child: Stack(
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(28),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          // Header: Avatar & Name
+          Row(
             children: [
-              // Subtle decorative background
-              Positioned(
-                right: -20,
-                top: -20,
-                child: Icon(Icons.favorite_rounded, size: 140, color: Colors.white.withOpacity(0.08)),
+              Container(
+                width: 56, height: 56,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryPale,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 3),
+                  boxShadow: [BoxShadow(color: AppColors.primary.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4))],
+                ),
+                child: const Icon(Icons.pregnant_woman_rounded, color: AppColors.primary, size: 28),
               ),
-              Padding(
-                padding: const EdgeInsets.all(24),
+              const SizedBox(width: 16),
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Top: Profile Info & Badge
-                    Row(
-                      children: [
-                        // Avatar Glow
-                        Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [Colors.white.withOpacity(0.8), Colors.white.withOpacity(0.2)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), shape: BoxShape.circle),
-                            child: const Icon(Icons.face_3_rounded, color: Colors.white, size: 24),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Kandungan Sehat,', style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 13, fontWeight: FontWeight.w500)),
-                              const SizedBox(height: 4),
-                              Obx(() => Text(controller.patientName.value, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold))),
-                            ],
-                          ),
-                        ),
-                        // Custom Glass Risk Badge
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.white.withOpacity(0.4)),
-                          ),
-                          child: const Row(
-                            children: [
-                              Icon(Icons.check_circle_outline_rounded, color: Colors.white, size: 14),
-                              SizedBox(width: 4),
-                              Text('Risiko Rendah', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Middle: Progress Bar
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Trimester 3', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                        Obx(() => Text('${controller.currentWeek.value} dari 40 Minggu', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white))),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    // Progress Track
-                    Container(
-                      height: 8,
-                      width: double.infinity,
-                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(10)),
-                      child: Obx(() => FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
-                        widthFactor: (controller.currentWeek.value / 40).clamp(0.0, 1.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.8), blurRadius: 8, offset: const Offset(0, 0))],
-                          ),
-                        ),
-                      )),
-                    ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Bottom: Stats
-                    Row(
-                      children: [
-                        Expanded(child: Obx(() => _buildGlassStatItem('Usia Kehamilan', controller.gestationalAge.value, Icons.child_friendly_rounded))),
-                        const SizedBox(width: 16),
-                        Expanded(child: Obx(() => _buildGlassStatItem('Perkiraan Lahir', controller.hpl.value, Icons.event_available_rounded))),
-                      ],
-                    ),
+                    const Text('Ibu Hamil', style: TextStyle(color: AppColors.gray500, fontSize: 13, fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 4),
+                    Obx(() => Text(controller.patientName.value, style: const TextStyle(color: AppColors.gray900, fontSize: 22, fontWeight: FontWeight.bold))),
                   ],
+                ),
+              ),
+              const RiskBadge(level: RiskLevel.warning),
+            ],
+          ),
+          
+          const SizedBox(height: 24),
+          const Divider(height: 1, color: AppColors.gray100),
+          const SizedBox(height: 24),
+          
+          // Stats row
+          Row(
+            children: [
+              Expanded(
+                child: _buildMinimalStatItem(
+                  'Usia Kehamilan',
+                  Obx(() => Text(controller.gestationalAge.value, style: const TextStyle(color: AppColors.gray900, fontSize: 16, fontWeight: FontWeight.w800))),
+                  Icons.auto_awesome_rounded,
+                  AppColors.primary,
+                ),
+              ),
+              Container(width: 1, height: 40, color: AppColors.gray100),
+              Expanded(
+                child: _buildMinimalStatItem(
+                  'Perkiraan Lahir',
+                  Obx(() => Text(controller.hpl.value, style: const TextStyle(color: AppColors.gray900, fontSize: 16, fontWeight: FontWeight.w800))),
+                  Icons.event_available_rounded,
+                  AppColors.secondary,
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildGlassStatItem(String label, String value, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.2)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildMinimalStatItem(String label, Widget valueWidget, IconData icon, Color iconColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(icon, color: Colors.white, size: 24),
-          const SizedBox(height: 12),
-          Text(label, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 11, fontWeight: FontWeight.w600)),
-          const SizedBox(height: 4),
-          Text(value, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: iconColor.withOpacity(0.1), shape: BoxShape.circle),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: const TextStyle(color: AppColors.gray500, fontSize: 12, fontWeight: FontWeight.w500)),
+                const SizedBox(height: 2),
+                valueWidget,
+              ],
+            ),
+          ),
         ],
       ),
     );
