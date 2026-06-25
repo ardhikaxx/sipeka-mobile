@@ -12,49 +12,98 @@ class EducationView extends GetView<EducationController> {
       backgroundColor: AppColors.bgApp,
       body: Stack(
         children: [
+          Positioned(
+            top: -150, right: -50,
+            child: Container(
+              width: 300, height: 300,
+              decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [AppColors.primary.withOpacity(0.15), Colors.transparent])),
+            ),
+          ),
           Positioned(top: 0, left: 0, right: 0, child: Container(height: 220, decoration: const BoxDecoration(gradient: LinearGradient(colors: [AppColors.primary, Color(0xFF0A585B)], begin: Alignment.topCenter, end: Alignment.bottomCenter)))),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          
+          ListView(
+            padding: EdgeInsets.only(left: 20, right: 20, top: MediaQuery.of(context).padding.top + 90, bottom: 120),
+            physics: const BouncingScrollPhysics(),
+            children: [
+              _buildFeaturedArticle(),
+              const SizedBox(height: 32),
+              const Text('Kategori', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildCategoryBadge('Trimester 1', AppColors.primary),
+                  _buildCategoryBadge('Nutrisi', AppColors.secondary),
+                  _buildCategoryBadge('Persalinan', AppColors.riskGreen),
+                  _buildCategoryBadge('Semua', AppColors.gray500),
+                ],
+              ),
+              const SizedBox(height: 32),
+              const Text('Artikel Terbaru', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+              const SizedBox(height: 16),
+              _buildArticleCard('Mengenali Gejala Preeklampsia', 'Pahami tanda bahaya seperti sakit kepala hebat dan pandangan kabur.', '12 Ags 2026', Icons.warning_rounded, AppColors.riskRed),
+              _buildArticleCard('Nutrisi Trimester Ketiga', 'Makanan bergizi untuk mengoptimalkan berat badan janin.', '05 Ags 2026', Icons.restaurant, AppColors.primaryLight),
+              _buildArticleCard('Persiapan Persalinan', 'Daftar barang yang perlu disiapkan di tas bersalin.', '01 Ags 2026', Icons.shopping_bag, AppColors.secondary),
+            ],
+          ),
+
+          // Floating Pill Header
+          Positioned(
+            top: 0, left: 0, right: 0,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Container(
+                  height: 64,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [BoxShadow(color: AppColors.primary.withOpacity(0.08), blurRadius: 24, offset: const Offset(0, 8))],
+                  ),
                   child: Row(
                     children: [
-                      const Text('Pusat Edukasi', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-                      const Spacer(),
-                      Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(12)), child: const Icon(Icons.search, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 120),
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      _buildFeaturedArticle(),
-                      const SizedBox(height: 32),
-                      const Text('Kategori', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildCategoryBadge('Trimester 1', AppColors.primary),
-                          _buildCategoryBadge('Nutrisi', AppColors.secondary),
-                          _buildCategoryBadge('Persalinan', AppColors.riskGreen),
-                          _buildCategoryBadge('Semua', AppColors.gray500),
-                        ],
+                      Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.primary, width: 2),
+                        ),
+                        child: const CircleAvatar(
+                          radius: 16,
+                          backgroundColor: AppColors.primaryPale,
+                          child: Icon(Icons.menu_book_rounded, color: AppColors.primary, size: 20),
+                        ),
                       ),
-                      const SizedBox(height: 32),
-                      const Text('Artikel Terbaru', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-                      const SizedBox(height: 16),
-                      _buildArticleCard('Mengenali Gejala Preeklampsia', 'Pahami tanda bahaya seperti sakit kepala hebat dan pandangan kabur.', '12 Ags 2026', Icons.warning_rounded, AppColors.riskRed),
-                      _buildArticleCard('Nutrisi Trimester Ketiga', 'Makanan bergizi untuk mengoptimalkan berat badan janin.', '05 Ags 2026', Icons.restaurant, AppColors.primaryLight),
-                      _buildArticleCard('Persiapan Persalinan', 'Daftar barang yang perlu disiapkan di tas bersalin.', '01 Ags 2026', Icons.shopping_bag, AppColors.secondary),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Pusat Edukasi', style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text('Modul & Artikel Kehamilan', style: TextStyle(color: AppColors.gray500, fontSize: 10, fontWeight: FontWeight.w600)),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 32, height: 32,
+                        decoration: BoxDecoration(
+                          color: AppColors.bgApp,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.gray200),
+                        ),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {},
+                          icon: const Icon(Icons.search_rounded, color: AppColors.gray700, size: 16),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],

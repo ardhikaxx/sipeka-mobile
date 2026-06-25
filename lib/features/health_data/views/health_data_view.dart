@@ -15,6 +15,13 @@ class HealthDataView extends GetView<HealthDataController> {
       body: Stack(
         children: [
           Positioned(
+            top: -150, right: -50,
+            child: Container(
+              width: 300, height: 300,
+              decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [AppColors.primary.withOpacity(0.15), Colors.transparent])),
+            ),
+          ),
+          Positioned(
             top: 0, left: 0, right: 0,
             child: Container(
               height: 220,
@@ -23,62 +30,104 @@ class HealthDataView extends GetView<HealthDataController> {
               ),
             ),
           ),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          
+          ListView(
+            padding: EdgeInsets.only(left: 20, right: 20, top: MediaQuery.of(context).padding.top + 90, bottom: 120),
+            physics: const BouncingScrollPhysics(),
+            children: [
+              _buildAlertBanner(),
+              const SizedBox(height: 24),
+              const Text('Grafik Tekanan Darah', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+              const SizedBox(height: 16),
+              _buildChart(),
+              const SizedBox(height: 24),
+              const Text('Vital Saat Ini', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+              const SizedBox(height: 16),
+              GridView.count(
+                crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 0.9,
+                children: [
+                  Obx(() => VitalCard(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80')),
+                  Obx(() => VitalCard(title: 'Berat Badan', value: '${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, iconColor: AppColors.primaryLight, trendMessage: '+1.5kg dari lalu')),
+                  Obx(() => VitalCard(title: 'Detak Jantung', value: '${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, iconColor: AppColors.secondary)),
+                  Obx(() => VitalCard(title: 'Tinggi Fundus', value: '${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, iconColor: AppColors.riskGreen)),
+                ],
+              ),
+              const SizedBox(height: 24),
+              const Text('Hasil Lab Terakhir (12 Ags 2026)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 5))]),
+                child: Column(
+                  children: [
+                    _buildLabRow('Protein Urine', '+1', true, Icons.water_drop),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider()),
+                    _buildLabRow('Hemoglobin (Hb)', '11.5 g/dL', false, Icons.bloodtype),
+                    const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider()),
+                    _buildLabRow('Gula Darah (GDS)', '98 mg/dL', false, Icons.science),
+                  ],
+                ),
+              )
+            ],
+          ),
+
+          // Floating Pill Header
+          Positioned(
+            top: 0, left: 0, right: 0,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Container(
+                  height: 64,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [BoxShadow(color: AppColors.primary.withOpacity(0.08), blurRadius: 24, offset: const Offset(0, 8))],
+                  ),
                   child: Row(
                     children: [
-                      const Text('Data Kesehatan', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-                      const Spacer(),
-                      Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(12)), child: const Icon(Icons.history, color: Colors.white)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 120),
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      _buildAlertBanner(),
-                      const SizedBox(height: 24),
-                      const Text('Grafik Tekanan Darah', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-                      const SizedBox(height: 16),
-                      _buildChart(),
-                      const SizedBox(height: 24),
-                      const Text('Vital Saat Ini', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-                      const SizedBox(height: 16),
-                      GridView.count(
-                        crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 0.9,
-                        children: [
-                          Obx(() => VitalCard(title: 'Tekanan Darah', value: '${controller.bpSistolik.value}/${controller.bpDiastolik.value}', unit: 'mmHg', icon: Icons.monitor_heart, iconColor: AppColors.riskRed, isWarning: true, trendMessage: 'Naik dari 120/80')),
-                          Obx(() => VitalCard(title: 'Berat Badan', value: '${controller.weight.value}', unit: 'kg', icon: Icons.monitor_weight, iconColor: AppColors.primaryLight, trendMessage: '+1.5kg dari lalu')),
-                          Obx(() => VitalCard(title: 'Detak Jantung', value: '${controller.djj.value}', unit: 'dpm', icon: Icons.favorite, iconColor: AppColors.secondary)),
-                          Obx(() => VitalCard(title: 'Tinggi Fundus', value: '${controller.tfu.value}', unit: 'cm', icon: Icons.straighten, iconColor: AppColors.riskGreen)),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      const Text('Hasil Lab Terakhir (12 Ags 2026)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
-                      const SizedBox(height: 16),
                       Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 5))]),
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.primary, width: 2),
+                        ),
+                        child: const CircleAvatar(
+                          radius: 16,
+                          backgroundColor: AppColors.primaryPale,
+                          child: Icon(Icons.favorite_rounded, color: AppColors.primary, size: 20),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildLabRow('Protein Urine', '+1', true, Icons.water_drop),
-                            const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider()),
-                            _buildLabRow('Hemoglobin (Hb)', '11.5 g/dL', false, Icons.bloodtype),
-                            const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider()),
-                            _buildLabRow('Gula Darah (GDS)', '98 mg/dL', false, Icons.science),
+                            const Text('Data Kesehatan', style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text('Pantau rekam medis Anda', style: TextStyle(color: AppColors.gray500, fontSize: 10, fontWeight: FontWeight.w600)),
                           ],
                         ),
-                      )
+                      ),
+                      Container(
+                        width: 32, height: 32,
+                        decoration: BoxDecoration(
+                          color: AppColors.bgApp,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.gray200),
+                        ),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {},
+                          icon: const Icon(Icons.history_rounded, color: AppColors.gray700, size: 16),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -93,7 +142,7 @@ class HealthDataView extends GetView<HealthDataController> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: AppColors.riskYellowBg, shape: BoxShape.circle), child: const Icon(Icons.warning_amber_rounded, color: AppColors.riskYellow, size: 28)),
+          Container(padding: const EdgeInsets.all(12), decoration: const BoxDecoration(color: AppColors.riskYellowBg, shape: BoxShape.circle), child: const Icon(Icons.warning_amber_rounded, color: AppColors.riskYellow, size: 28)),
           const SizedBox(width: 16),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [Text('Perhatian: Tekanan Darah Meningkat', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.gray900)), SizedBox(height: 6), Text('Tekanan darah mendekati batas hipertensi. Kurangi konsumsi garam.', style: TextStyle(fontSize: 13, color: AppColors.gray500, height: 1.5))])),
         ],
