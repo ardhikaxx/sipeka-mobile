@@ -207,50 +207,103 @@ class DashboardView extends GetView<DashboardController> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 24,
-            offset: const Offset(0, 12),
+            color: AppColors.primary.withOpacity(0.12),
+            blurRadius: 30,
+            offset: const Offset(0, 15),
           )
         ],
+        border: Border.all(color: Colors.white, width: 2),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          // Top Colored Section
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [Color(0xFFE8F5F5), Color(0xFFF3FAF6)], begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(28), topRight: Radius.circular(28)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Ibu Hamil', style: TextStyle(color: AppColors.gray500, fontSize: 12, fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 4),
-                      Obx(() => Text(controller.patientName.value, style: const TextStyle(color: AppColors.gray900, fontSize: 20, fontWeight: FontWeight.bold))),
-                    ],
-                  ),
-                ),
-                const RiskBadge(level: RiskLevel.warning),
-              ],
-            ),
+          // Subtle decorative background
+          Positioned(
+            right: -20,
+            top: -20,
+            child: Icon(Icons.favorite_rounded, size: 120, color: AppColors.primaryPale.withOpacity(0.4)),
           ),
-          // Bottom Stats Section
           Padding(
             padding: const EdgeInsets.all(24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(() => _buildStatItem('Usia Kehamilan', controller.gestationalAge.value, Icons.child_care_rounded)),
-                Container(height: 40, width: 1, color: AppColors.gray200),
-                Obx(() => _buildStatItem('Perkiraan Lahir', controller.hpl.value, Icons.calendar_today_rounded)),
+                // Top: Profile Info & Badge
+                Row(
+                  children: [
+                    // Avatar Glow
+                    Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [AppColors.primary, AppColors.secondary],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                        child: const Icon(Icons.face_3_rounded, color: AppColors.primary, size: 24),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Kandungan Sehat,', style: TextStyle(color: AppColors.gray500, fontSize: 13, fontWeight: FontWeight.w500)),
+                          const SizedBox(height: 4),
+                          Obx(() => Text(controller.patientName.value, style: const TextStyle(color: AppColors.gray900, fontSize: 20, fontWeight: FontWeight.bold))),
+                        ],
+                      ),
+                    ),
+                    const RiskBadge(level: RiskLevel.warning),
+                  ],
+                ),
+                
+                const SizedBox(height: 24),
+                
+                // Middle: Progress Bar
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Trimester 3', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                    Obx(() => Text('${controller.currentWeek.value} dari 40 Minggu', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.gray500))),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                // Progress Track
+                Container(
+                  height: 10,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: AppColors.primaryPale, borderRadius: BorderRadius.circular(10)),
+                  child: Obx(() => FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: (controller.currentWeek.value / 40).clamp(0.0, 1.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(colors: [AppColors.primaryLight, AppColors.primary]),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [BoxShadow(color: AppColors.primary.withOpacity(0.4), blurRadius: 6, offset: const Offset(0, 2))],
+                      ),
+                    ),
+                  )),
+                ),
+                
+                const SizedBox(height: 24),
+                
+                // Bottom: Stats
+                Row(
+                  children: [
+                    Expanded(child: Obx(() => _buildNewStatItem('Usia Kehamilan', controller.gestationalAge.value, Icons.child_friendly_rounded, const Color(0xFFF0FDF4), const Color(0xFF16A34A)))),
+                    const SizedBox(width: 16),
+                    Expanded(child: Obx(() => _buildNewStatItem('Perkiraan Lahir', controller.hpl.value, Icons.event_available_rounded, const Color(0xFFEFF6FF), const Color(0xFF2563EB)))),
+                  ],
+                ),
               ],
             ),
           ),
@@ -259,16 +312,24 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: AppColors.primary, size: 24),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(color: AppColors.gray500, fontSize: 11)),
-        const SizedBox(height: 4),
-        Text(value, style: const TextStyle(color: AppColors.gray900, fontSize: 14, fontWeight: FontWeight.bold)),
-      ],
+  Widget _buildNewStatItem(String label, String value, IconData icon, Color bgColor, Color iconColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: iconColor.withOpacity(0.1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: iconColor, size: 24),
+          const SizedBox(height: 12),
+          Text(label, style: const TextStyle(color: AppColors.gray500, fontSize: 11, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 4),
+          Text(value, style: const TextStyle(color: AppColors.gray900, fontSize: 14, fontWeight: FontWeight.bold)),
+        ],
+      ),
     );
   }
 
