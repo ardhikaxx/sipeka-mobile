@@ -91,13 +91,23 @@ class DashboardView extends GetView<DashboardController> {
                       children: [
                         const Text('Layanan SIPEKA', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.gray900)),
                         const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
                           children: [
-                            _buildMenuIcon('Data\nKesehatan', Icons.favorite, AppColors.secondary, () => Get.find<MainNavController>().changePage(1)),
-                            _buildMenuIcon('Jadwal\nPeriksa', Icons.calendar_month, AppColors.primaryLight, () => Get.find<MainNavController>().changePage(2)),
-                            _buildMenuIcon('Modul\nEdukasi', Icons.menu_book, AppColors.riskGreen, () => Get.find<MainNavController>().changePage(3)),
-                            _buildMenuIcon('Lapor\nDarurat', Icons.warning_amber_rounded, AppColors.riskRed, () => Get.toNamed(Routes.EMERGENCY), isEmergency: true),
+                            Row(
+                              children: [
+                                Expanded(child: _buildPremiumMenuCard('Data Kesehatan', 'Rekam medis', Icons.favorite_rounded, AppColors.secondary, () => Get.find<MainNavController>().changePage(1))),
+                                const SizedBox(width: 16),
+                                Expanded(child: _buildPremiumMenuCard('Jadwal Periksa', 'Kalender jadwal', Icons.calendar_month_rounded, AppColors.primaryLight, () => Get.find<MainNavController>().changePage(2))),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(child: _buildPremiumMenuCard('Modul Edukasi', 'Artikel & panduan', Icons.menu_book_rounded, AppColors.riskGreen, () => Get.find<MainNavController>().changePage(3))),
+                                const SizedBox(width: 16),
+                                Expanded(child: _buildPremiumMenuCard('Lapor Darurat', 'Kirim sinyal SOS', Icons.warning_rounded, AppColors.riskRed, () => Get.toNamed(Routes.EMERGENCY), isEmergency: true)),
+                              ],
+                            ),
                           ],
                         ),
                         
@@ -262,30 +272,54 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
-  Widget _buildMenuIcon(String title, IconData icon, Color color, VoidCallback onTap, {bool isEmergency = false}) {
+  Widget _buildPremiumMenuCard(String title, String subtitle, IconData icon, Color color, VoidCallback onTap, {bool isEmergency = false}) {
     return GestureDetector(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 64, height: 64,
-            decoration: BoxDecoration(
-              color: isEmergency ? color : color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: isEmergency ? color : color.withOpacity(0.2)),
-              boxShadow: isEmergency ? [BoxShadow(color: color.withOpacity(0.4), blurRadius: 15, offset: const Offset(0, 8))] : [],
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isEmergency ? color : Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: isEmergency ? color : AppColors.gray200),
+          boxShadow: [
+            BoxShadow(
+              color: isEmergency ? color.withOpacity(0.3) : Colors.black.withOpacity(0.03),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: isEmergency ? Colors.white.withOpacity(0.2) : color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: isEmergency ? Colors.white : color, size: 24),
             ),
-            child: Icon(icon, color: isEmergency ? Colors.white : color, size: 30),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: AppColors.gray700, height: 1.2),
-          ),
-        ],
+            const SizedBox(height: 16),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: isEmergency ? Colors.white : AppColors.gray900,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 11,
+                color: isEmergency ? Colors.white.withOpacity(0.9) : AppColors.gray500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
