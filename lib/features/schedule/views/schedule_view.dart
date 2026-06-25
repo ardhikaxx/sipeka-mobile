@@ -28,13 +28,17 @@ class ScheduleView extends GetView<ScheduleController> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20, offset: const Offset(0, 10))]),
-                        child: Obx(() => TableCalendar(
-                          firstDay: DateTime.utc(2020, 1, 1), lastDay: DateTime.utc(2030, 12, 31), focusedDay: controller.focusedDate.value,
-                          selectedDayPredicate: (day) => isSameDay(controller.selectedDate.value, day),
-                          onDaySelected: (selectedDay, focusedDay) { controller.selectedDate.value = selectedDay; controller.focusedDate.value = focusedDay; },
-                          calendarStyle: const CalendarStyle(todayDecoration: BoxDecoration(color: AppColors.primaryLight, shape: BoxShape.circle), selectedDecoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle)),
-                          headerStyle: const HeaderStyle(formatButtonVisible: false, titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        )),
+                        child: Obx(() {
+                          final focused = controller.focusedDate.value;
+                          final selected = controller.selectedDate.value;
+                          return TableCalendar(
+                            firstDay: DateTime.utc(2020, 1, 1), lastDay: DateTime.utc(2030, 12, 31), focusedDay: focused,
+                            selectedDayPredicate: (day) => isSameDay(selected, day),
+                            onDaySelected: (selectedDay, focusedDay) { controller.selectedDate.value = selectedDay; controller.focusedDate.value = focusedDay; },
+                            calendarStyle: const CalendarStyle(todayDecoration: BoxDecoration(color: AppColors.primaryLight, shape: BoxShape.circle), selectedDecoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle)),
+                            headerStyle: const HeaderStyle(formatButtonVisible: false, titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          );
+                        }),
                       ),
                       const SizedBox(height: 32),
                       const Text('Jadwal Mendatang', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.gray900)),
