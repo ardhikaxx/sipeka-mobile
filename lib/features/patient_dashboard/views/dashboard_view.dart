@@ -74,6 +74,13 @@ class DashboardView extends GetView<DashboardController> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: _buildDigitalPregnancyCard(),
                   ),
+                  const SizedBox(height: 16),
+                  
+                  // Fetal Size Visualizer
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: _buildFetalSizeVisualizer(),
+                  ),
                   const SizedBox(height: 24),
                   
                   // Main Menus
@@ -111,7 +118,12 @@ class DashboardView extends GetView<DashboardController> {
                           ],
                         ),
                         
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
+                        
+                        // Hydration Tracker
+                        _buildHydrationTracker(),
+                        
+                        const SizedBox(height: 24),
                         
                         // Next Appointment Ticket
                         Row(
@@ -525,6 +537,116 @@ class DashboardView extends GetView<DashboardController> {
             ),
           );
         },
+      ),
+    );
+  }
+  Widget _buildFetalSizeVisualizer() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 20, offset: const Offset(0, 10))
+        ],
+        border: Border.all(color: AppColors.primary.withOpacity(0.1)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 70, height: 70,
+            decoration: BoxDecoration(
+              color: AppColors.primaryPale,
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.primary.withOpacity(0.2), width: 2),
+            ),
+            child: const Center(
+              child: Text('🍆', style: TextStyle(fontSize: 32)),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Ukuran Janin', style: TextStyle(color: AppColors.gray500, fontSize: 12, fontWeight: FontWeight.bold)),
+                    Obx(() => Text('Minggu ${controller.currentWeek.value}', style: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w900))),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                const Text('Sebesar Terong', style: TextStyle(color: AppColors.gray900, fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
+                const Text('Panjang ±42 cm, Berat ±1.7 kg', style: TextStyle(color: AppColors.gray500, fontSize: 12)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHydrationTracker() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF0F9FF),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFBAE6FD)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: const [
+                  Icon(Icons.water_drop_rounded, color: Color(0xFF0284C7), size: 20),
+                  SizedBox(width: 8),
+                  Text('Target Minum Hari Ini', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0369A1), fontSize: 14)),
+                ],
+              ),
+              Obx(() => Text('${controller.waterConsumed.value}/${controller.waterTarget.value} Gelas', style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF0284C7), fontSize: 14))),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Obx(() {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(controller.waterTarget.value, (index) {
+                bool isConsumed = index < controller.waterConsumed.value;
+                return GestureDetector(
+                  onTap: () {
+                    if (!isConsumed) {
+                      controller.addWater();
+                    } else if (index == controller.waterConsumed.value - 1) {
+                      controller.removeWater();
+                    }
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.elasticOut,
+                    width: 30, height: 40,
+                    decoration: BoxDecoration(
+                      color: isConsumed ? const Color(0xFF0EA5E9) : Colors.white,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                        topLeft: Radius.circular(4),
+                        topRight: Radius.circular(4),
+                      ),
+                      border: Border.all(color: isConsumed ? const Color(0xFF0284C7) : const Color(0xFFBAE6FD), width: 1.5),
+                      boxShadow: isConsumed ? [BoxShadow(color: const Color(0xFF0EA5E9).withOpacity(0.4), blurRadius: 8, offset: const Offset(0, 4))] : [],
+                    ),
+                  ),
+                );
+              }),
+            );
+          }),
+        ],
       ),
     );
   }
