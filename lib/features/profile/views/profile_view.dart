@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
+import 'language_settings_view.dart';
 import '../../../core/theme/app_colors.dart';
 
 class ProfileView extends StatelessWidget {
@@ -106,7 +107,7 @@ class ProfileView extends StatelessWidget {
                       ],
                     ),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider(height: 1)),
-                    _buildSettingsAction(Icons.language_rounded, 'Bahasa (Language)'),
+                    _buildSettingsAction(Icons.language_rounded, 'Bahasa (Language)', onTap: () => Get.to(() => const LanguageSettingsView())),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider(height: 1)),
                     _buildSettingsAction(Icons.help_outline_rounded, 'Bantuan & FAQ'),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Divider(height: 1)),
@@ -160,11 +161,11 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingsAction(IconData icon, String label, {bool isDestructive = false}) {
+  Widget _buildSettingsAction(IconData icon, String label, {bool isDestructive = false, VoidCallback? onTap}) {
     final color = isDestructive ? AppColors.riskRed : AppColors.gray900;
     final iconColor = isDestructive ? AppColors.riskRed : AppColors.primary;
     return InkWell(
-      onTap: () {},
+      onTap: onTap ?? () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(

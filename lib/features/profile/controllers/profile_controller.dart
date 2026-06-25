@@ -12,8 +12,13 @@ class ProfileController extends GetxController {
   final medicalHistory = 'Asma ringan'.obs;
   
   final notificationsEnabled = true.obs;
+  final selectedLanguage = 'Bahasa Indonesia'.obs;
   
   void toggleNotifications(bool value) {
     notificationsEnabled.value = value;
+  }
+
+  void changeLanguage(String lang) {
+    selectedLanguage.value = lang;
   }
 }
