@@ -74,13 +74,6 @@ class DashboardView extends GetView<DashboardController> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: _buildDigitalPregnancyCard(),
                   ),
-                  const SizedBox(height: 16),
-                  
-                  // Fetal Size Visualizer
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _buildFetalSizeVisualizer(),
-                  ),
                   const SizedBox(height: 24),
                   
                   // Main Menus
@@ -112,6 +105,11 @@ class DashboardView extends GetView<DashboardController> {
                         
                         // Hydration Tracker
                         _buildHydrationTracker(),
+                        
+                        const SizedBox(height: 24),
+                        
+                        // Fetal Size Visualizer
+                        _buildFetalSizeVisualizer(),
                         
                         const SizedBox(height: 24),
                         
