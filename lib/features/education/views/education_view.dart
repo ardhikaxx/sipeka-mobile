@@ -139,6 +139,20 @@ class EducationView extends GetView<EducationController> {
             badgeColor: AppColors.riskGreen,
             imagePath: 'assets/images/senam_kehamilan.jpg',
           ),
+          const SizedBox(width: 16),
+          _buildCarouselCard(
+            title: 'Persiapan Mental Menjelang Persalinan',
+            badgeText: 'PSIKOLOGI',
+            badgeColor: const Color(0xFF8B5CF6),
+            imagePath: 'assets/images/edukasi_psikologi.jpg',
+          ),
+          const SizedBox(width: 16),
+          _buildCarouselCard(
+            title: 'Perkembangan Janin di Trimester Kedua',
+            badgeText: 'PERKEMBANGAN',
+            badgeColor: const Color(0xFFF59E0B),
+            imagePath: 'assets/images/edukasi_perkembangan.jpg',
+          ),
         ],
       ),
     );
